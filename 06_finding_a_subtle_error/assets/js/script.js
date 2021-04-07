@@ -1,4 +1,7 @@
-const API_KEY = "VZn-Fx2ohpPGHAs_RhP_m6IgxYA";
+// https://mattrudge.net/assets/js/menu.js
+// https://ci-jshint.herokuapp.com/api
+
+const API_KEY = "1KKBcDY9XFthklKrhi9VSTFuJx4";
 const API_URL = "https://ci-jshint.herokuapp.com/api";
 const resultsModal = new bootstrap.Modal(document.getElementById("resultsModal"));
 
@@ -38,6 +41,7 @@ async function postForm(e) {
     if (response.ok) {
         displayErrors(data);
     } else {
+        displayException(data);
         throw new Error(data.error);
     }
 
@@ -54,10 +58,30 @@ async function getStatus(e) {
     if (response.ok) {
         displayStatus(data);
     } else {
+        displayException(data);
         throw new Error(data.error);
     }
 
 }
+
+
+function displayException(data){
+    let results = "";
+    let heading = `An Exception Occurred`;
+
+    
+    results = `<div>The API returned status code ${data.status_code}</div>`;
+    results += `<div>Error Number: ${data.error_no}</div>`;
+    results += `<div>Error text: <strong>${data.error}</strong></div>`;
+    
+
+    document.getElementById("resultsModalTitle").innerText = heading;
+    document.getElementById("results-content").innerHTML = results;
+    resultsModal.show();
+}
+
+
+
 
 function displayErrors(data) {
 
